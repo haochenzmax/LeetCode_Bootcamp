@@ -8,7 +8,17 @@ class Solution:
             store.add(num)
         return False
 
-
+# Video Stitching
+class Solution:
+    def videoStitching(self, clips: List[List[int]], time: int) -> int:
+        res = 1
+        right = pivot = 0
+        for v in sorted(clips):
+            if v[0] <= pivot: right = max(v[1], right)
+            elif right >= time: return res
+            elif v[0] > right: return -1
+            else: pivot, right, res = right, max(v[1], right), res+1
+        return res if right >= time else -1
 
 # Container With Most Water
 class Solution:
