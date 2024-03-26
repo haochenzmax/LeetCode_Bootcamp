@@ -1,0 +1,65 @@
+class Solution:
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        
+        if head and not head.next:
+            return head
+
+        middle = head
+        count = 0
+
+        while head and head.next:
+            head = head.next
+            count += 1
+
+        for _ in range(math.ceil(count/2)):
+            middle = middle.next
+        
+        return middle
+
+
+class Solution(object):
+    def isValidSudoku(self, board):
+        res = []
+        for i in range(9):
+            for j in range(9):
+                element = board[i][j]
+                if element != '.':
+                    res += [(i, element), (element, j), (i // 3, j // 3, element)]
+        return len(res) == len(set(res))
+
+
+class Solution:
+    def reverseLinkedList(self, begin: Optional[ListNode], end: Optional[ListNode]) -> Optional[ListNode]:
+        prev = None
+        while begin != end:
+            next = begin.next
+            begin.next = prev
+            prev = begin
+            begin = next
+
+        return prev
+
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if k == 1 or head is None or head.next is None:
+            return head
+        
+        dummy = ListNode(0, head)
+        back, forward = dummy, head
+
+        while back is not None:
+            groupLen = 0
+            while groupLen < k and forward is not None:
+                forward = forward.next
+                groupLen += 1
+            
+            if groupLen != k:
+                break
+            
+            last = back.next
+
+            back.next = self.reverseLinkedList(back.next, forward)
+            
+            last.next = forward
+            back = last
+
+        return dummy.next
